@@ -14,10 +14,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.json.JSONObject;
+
 import pl.dawidstepien.say.model.SayingEntity;
 
 @Path("/say")
-@Produces(MediaType.TEXT_PLAIN)
+@Produces(MediaType.APPLICATION_JSON)
 @Stateless
 public class SayRestService {
 
@@ -28,6 +30,13 @@ public class SayRestService {
   public Response getSay() {
     List<SayingEntity> sayings = entityManager.createNamedQuery(FIND_ALL_SAYINGS, SayingEntity.class).getResultList();
     SayingEntity saying = sayings.get(new Random().nextInt(sayings.size()));
-    return Response.ok(saying.getContent()).build();
+    return Response.ok(convertToJson(saying).toString()).build();
+  }
+
+  private JSONObject convertToJson(SayingEntity saying) {
+    JSONObject json = new JSONObject();
+    json.put("content", saying.getContent());
+    json.put("author", saying.getAuthor());
+    return json;
   }
 }
