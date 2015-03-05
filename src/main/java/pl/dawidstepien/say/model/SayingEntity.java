@@ -36,4 +36,8 @@ public class SayingEntity {
   public String getAuthor() {
     return author;
   }
+
+  public long getId() {
+    return id;
+  }
 }
