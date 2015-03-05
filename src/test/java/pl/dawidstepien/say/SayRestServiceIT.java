@@ -18,7 +18,7 @@ public class SayRestServiceIT {
   @Test
   public void shouldReturnRandomSaying() {
     // when
-    URI uri = UriBuilder.fromUri("http://localhost/say-1.0-SNAPSHOT/rest/sayings/random").port(8080).build();
+    URI uri = UriBuilder.fromUri("http://localhost/sayings-1.0-SNAPSHOT/rest/sayings/random").port(8080).build();
     Response response = client.target(uri).request().get();
 
     // then
@@ -28,7 +28,7 @@ public class SayRestServiceIT {
   @Test
   public void shouldReturnAllSayings() {
     // when
-    URI uri = UriBuilder.fromUri("http://localhost/say-1.0-SNAPSHOT/rest/sayings").port(8080).build();
+    URI uri = UriBuilder.fromUri("http://localhost/sayings-1.0-SNAPSHOT/rest/sayings").port(8080).build();
     Response response = client.target(uri).request().get();
 
     // then
