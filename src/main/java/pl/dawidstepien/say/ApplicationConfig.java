@@ -14,7 +14,7 @@ public class ApplicationConfig extends Application {
 
   public ApplicationConfig() {
     HashSet<Class<?>> c = new HashSet<>();
-    c.add(SayRestService.class);
+    c.add(SayingsRestService.class);
     classes = Collections.unmodifiableSet(c);
   }
 

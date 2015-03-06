@@ -31,7 +31,7 @@ import pl.dawidstepien.say.model.SayingEntity;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @Stateless
-public class SayRestService {
+public class SayingsRestService {
 
   @Inject
   private EntityManager entityManager;
