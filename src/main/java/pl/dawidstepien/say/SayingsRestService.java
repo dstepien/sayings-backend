@@ -14,6 +14,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -77,6 +78,12 @@ public class SayingsRestService {
   @Path("{id}")
   public Response removeSaying(@PathParam("id") long id) {
     entityManager.remove(entityManager.find(SayingEntity.class, id));
+    return Response.noContent().build();
+  }
+
+  @PUT
+  public Response updateSaying(@NotNull SayingEntity saying) {
+    entityManager.merge(saying);
     return Response.noContent().build();
   }
 
