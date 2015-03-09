@@ -1,9 +1,8 @@
-package pl.dawidstepien.say;
+package pl.dawidstepien.sayings.endpoint.rest;
 
-import static pl.dawidstepien.say.model.SayingEntity.FIND_ALL_SAYINGS;
+import static pl.dawidstepien.sayings.model.SayingEntity.FIND_ALL_SAYINGS;
 
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 import javax.ejb.Stateless;
@@ -26,13 +25,15 @@ import javax.ws.rs.core.UriInfo;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import pl.dawidstepien.say.model.SayingEntity;
+import pl.dawidstepien.sayings.endpoint.rest.response.RandomSayingResponse;
+import pl.dawidstepien.sayings.model.SayingEntity;
+import pl.dawidstepien.sayings.service.saying.GetRandomSayingService;
 
 @Path("/sayings")
+@Stateless
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@Stateless
-public class SayingsRestService {
+public class SayingsRestEndpoint {
 
   @Inject
   private EntityManager entityManager;
@@ -43,9 +44,9 @@ public class SayingsRestService {
   @GET
   @Path("/random")
   public Response getRandomSaying() {
-    List<SayingEntity> sayings = entityManager.createNamedQuery(FIND_ALL_SAYINGS, SayingEntity.class).getResultList();
-    SayingEntity saying = sayings.get(new Random().nextInt(sayings.size()));
-    return Response.ok(convertToJson(saying).toString()).build();
+    GetRandomSayingService service = new GetRandomSayingService();
+    service.setEntityManager(entityManager);
+    return new RandomSayingResponse(service.execute()).build();
   }
 
   private JSONObject convertToJson(SayingEntity saying) {

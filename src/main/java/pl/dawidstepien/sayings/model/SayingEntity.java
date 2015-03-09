@@ -1,6 +1,6 @@
-package pl.dawidstepien.say.model;
+package pl.dawidstepien.sayings.model;
 
-import static pl.dawidstepien.say.model.SayingEntity.FIND_ALL_SAYINGS;
+import static pl.dawidstepien.sayings.model.SayingEntity.FIND_ALL_SAYINGS;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

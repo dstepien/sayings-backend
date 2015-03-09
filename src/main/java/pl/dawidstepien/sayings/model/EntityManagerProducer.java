@@ -1,4 +1,4 @@
-package pl.dawidstepien.say.model;
+package pl.dawidstepien.sayings.model;
 
 import javax.enterprise.inject.Produces;
 import javax.persistence.EntityManager;

@@ -1,4 +1,4 @@
-package pl.dawidstepien.say;
+package pl.dawidstepien.sayings;
 
 import static org.junit.Assert.assertEquals;
 
