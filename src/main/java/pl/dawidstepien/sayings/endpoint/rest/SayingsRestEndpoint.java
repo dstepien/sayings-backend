@@ -25,7 +25,7 @@ import javax.ws.rs.core.UriInfo;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import pl.dawidstepien.sayings.endpoint.rest.response.RandomSayingResponse;
+import pl.dawidstepien.sayings.endpoint.rest.response.RandomSayingRestResponse;
 import pl.dawidstepien.sayings.model.SayingEntity;
 import pl.dawidstepien.sayings.service.saying.GetRandomSayingService;
 
@@ -46,7 +46,7 @@ public class SayingsRestEndpoint {
   public Response getRandomSaying() {
     GetRandomSayingService service = new GetRandomSayingService();
     service.setEntityManager(entityManager);
-    return new RandomSayingResponse(service.execute()).build();
+    return new RandomSayingRestResponse(service.execute()).build();
   }
 
   private JSONObject convertToJson(SayingEntity saying) {
