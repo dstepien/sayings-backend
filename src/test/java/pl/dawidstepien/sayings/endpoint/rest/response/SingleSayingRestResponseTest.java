@@ -13,7 +13,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import pl.dawidstepien.sayings.model.SayingEntity;
 
 @RunWith(MockitoJUnitRunner.class)
-public class RandomSayingRestResponseTest {
+public class SingleSayingRestResponseTest {
 
   private static final String CONTENT = "Lorem ipsum";
 
@@ -31,7 +31,7 @@ public class RandomSayingRestResponseTest {
     when(saying.getAuthor()).thenReturn(AUTHOR);
     when(saying.getId()).thenReturn(ID);
     String expected = String.format("{\"author\":\"%s\",\"id\":%d,\"content\":\"%s\"}", AUTHOR, ID, CONTENT);
-    RandomSayingRestResponse response = new RandomSayingRestResponse(saying);
+    SingleSayingRestResponse response = new SingleSayingRestResponse(saying);
 
     // when
     Response result = response.build();

@@ -6,11 +6,11 @@ import org.json.JSONObject;
 
 import pl.dawidstepien.sayings.model.SayingEntity;
 
-public class RandomSayingRestResponse implements RestResponse {
+public class SingleSayingRestResponse implements RestResponse {
 
   private final SayingEntity saying;
 
-  public RandomSayingRestResponse(SayingEntity saying) {
+  public SingleSayingRestResponse(SayingEntity saying) {
     this.saying = saying;
   }
 

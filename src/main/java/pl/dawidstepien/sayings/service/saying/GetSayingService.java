@@ -1,24 +1,26 @@
 package pl.dawidstepien.sayings.service.saying;
 
-import static pl.dawidstepien.sayings.model.SayingEntity.FIND_ALL_SAYINGS;
-
-import java.util.List;
-
 import javax.persistence.EntityManager;
 
 import pl.dawidstepien.sayings.model.SayingEntity;
 import pl.dawidstepien.sayings.service.Service;
 
-public class GetAllSayingsService implements Service<List<SayingEntity>> {
+public class GetSayingService implements Service<SayingEntity> {
 
   private EntityManager entityManager;
 
+  private long sayingId;
+
   @Override
-  public List<SayingEntity> execute() {
-    return entityManager.createNamedQuery(FIND_ALL_SAYINGS, SayingEntity.class).getResultList();
+  public SayingEntity execute() {
+    return entityManager.find(SayingEntity.class, sayingId);
   }
 
   public void setEntityManager(EntityManager entityManager) {
     this.entityManager = entityManager;
+  }
+
+  public void setSayingId(long sayingId) {
+    this.sayingId = sayingId;
   }
 }

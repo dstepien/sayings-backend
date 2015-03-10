@@ -17,13 +17,12 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import org.json.JSONObject;
-
 import pl.dawidstepien.sayings.endpoint.rest.response.AllSayingsRestResponse;
-import pl.dawidstepien.sayings.endpoint.rest.response.RandomSayingRestResponse;
+import pl.dawidstepien.sayings.endpoint.rest.response.SingleSayingRestResponse;
 import pl.dawidstepien.sayings.model.SayingEntity;
 import pl.dawidstepien.sayings.service.saying.GetAllSayingsService;
 import pl.dawidstepien.sayings.service.saying.GetRandomSayingService;
+import pl.dawidstepien.sayings.service.saying.GetSayingService;
 
 @Path("/sayings")
 @Stateless
@@ -42,7 +41,7 @@ public class SayingsRestEndpoint {
   public Response getRandomSaying() {
     GetRandomSayingService service = new GetRandomSayingService();
     service.setEntityManager(entityManager);
-    return new RandomSayingRestResponse(service.execute()).build();
+    return new SingleSayingRestResponse(service.execute()).build();
   }
 
   @GET
@@ -55,16 +54,10 @@ public class SayingsRestEndpoint {
   @GET
   @Path("{id}")
   public Response getSaying(@PathParam("id") long id) {
-    SayingEntity saying = entityManager.find(SayingEntity.class, id);
-    return Response.ok(convertToJson(saying).toString()).build();
-  }
-
-  private JSONObject convertToJson(SayingEntity saying) {
-    JSONObject json = new JSONObject();
-    json.put("id", saying.getId());
-    json.put("content", saying.getContent());
-    json.put("author", saying.getAuthor());
-    return json;
+    GetSayingService service = new GetSayingService();
+    service.setEntityManager(entityManager);
+    service.setSayingId(id);
+    return new SingleSayingRestResponse(service.execute()).build();
   }
 
   @DELETE

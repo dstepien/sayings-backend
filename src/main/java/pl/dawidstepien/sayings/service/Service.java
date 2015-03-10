@@ -1,4 +1,4 @@
-package pl.dawidstepien.sayings.service.saying;
+package pl.dawidstepien.sayings.service;
 
 public interface Service<T> {
 

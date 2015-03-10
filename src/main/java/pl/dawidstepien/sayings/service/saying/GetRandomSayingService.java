@@ -8,6 +8,7 @@ import java.util.Random;
 import javax.persistence.EntityManager;
 
 import pl.dawidstepien.sayings.model.SayingEntity;
+import pl.dawidstepien.sayings.service.Service;
 
 public class GetRandomSayingService implements Service<SayingEntity> {
 
