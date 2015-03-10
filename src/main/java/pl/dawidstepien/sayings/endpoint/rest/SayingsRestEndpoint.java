@@ -1,10 +1,5 @@
 package pl.dawidstepien.sayings.endpoint.rest;
 
-import static pl.dawidstepien.sayings.model.SayingEntity.FIND_ALL_SAYINGS;
-
-import java.util.List;
-import java.util.stream.Collectors;
-
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -22,11 +17,12 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
+import pl.dawidstepien.sayings.endpoint.rest.response.AllSayingsRestResponse;
 import pl.dawidstepien.sayings.endpoint.rest.response.RandomSayingRestResponse;
 import pl.dawidstepien.sayings.model.SayingEntity;
+import pl.dawidstepien.sayings.service.saying.GetAllSayingsService;
 import pl.dawidstepien.sayings.service.saying.GetRandomSayingService;
 
 @Path("/sayings")
@@ -49,23 +45,11 @@ public class SayingsRestEndpoint {
     return new RandomSayingRestResponse(service.execute()).build();
   }
 
-  private JSONObject convertToJson(SayingEntity saying) {
-    JSONObject json = new JSONObject();
-    json.put("id", saying.getId());
-    json.put("content", saying.getContent());
-    json.put("author", saying.getAuthor());
-    return json;
-  }
-
   @GET
   public Response getAllSayings() {
-    List<SayingEntity> sayingsEntities = entityManager.createNamedQuery(FIND_ALL_SAYINGS, SayingEntity.class).getResultList();
-    JSONArray sayings = convertToJsonList(sayingsEntities);
-    return Response.ok(sayings.toString()).build();
-  }
-
-  private JSONArray convertToJsonList(List<SayingEntity> sayingsEntities) {
-    return new JSONArray(sayingsEntities.stream().map(this::convertToJson).collect(Collectors.toList()));
+    GetAllSayingsService service = new GetAllSayingsService();
+    service.setEntityManager(entityManager);
+    return new AllSayingsRestResponse(service.execute()).build();
   }
 
   @GET
@@ -73,6 +57,14 @@ public class SayingsRestEndpoint {
   public Response getSaying(@PathParam("id") long id) {
     SayingEntity saying = entityManager.find(SayingEntity.class, id);
     return Response.ok(convertToJson(saying).toString()).build();
+  }
+
+  private JSONObject convertToJson(SayingEntity saying) {
+    JSONObject json = new JSONObject();
+    json.put("id", saying.getId());
+    json.put("content", saying.getContent());
+    json.put("author", saying.getAuthor());
+    return json;
   }
 
   @DELETE
