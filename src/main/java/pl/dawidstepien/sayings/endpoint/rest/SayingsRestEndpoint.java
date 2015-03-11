@@ -20,10 +20,12 @@ import javax.ws.rs.core.UriInfo;
 import pl.dawidstepien.sayings.endpoint.rest.response.AllSayingsRestResponse;
 import pl.dawidstepien.sayings.endpoint.rest.response.SingleSayingRestResponse;
 import pl.dawidstepien.sayings.model.SayingEntity;
+import pl.dawidstepien.sayings.service.saying.CreateSayingService;
 import pl.dawidstepien.sayings.service.saying.DeleteSayingService;
 import pl.dawidstepien.sayings.service.saying.GetAllSayingsService;
 import pl.dawidstepien.sayings.service.saying.GetRandomSayingService;
 import pl.dawidstepien.sayings.service.saying.GetSayingService;
+import pl.dawidstepien.sayings.service.saying.UpdateSayingService;
 
 @Path("/sayings")
 @Stateless
@@ -73,13 +75,19 @@ public class SayingsRestEndpoint {
 
   @PUT
   public Response updateSaying(@NotNull SayingEntity saying) {
-    entityManager.merge(saying);
+    UpdateSayingService service = new UpdateSayingService();
+    service.setEntityManager(entityManager);
+    service.setSaying(saying);
+    service.execute();
     return Response.noContent().build();
   }
 
   @POST
   public Response createSaying(@NotNull SayingEntity saying) {
-    entityManager.persist(saying);
+    CreateSayingService service = new CreateSayingService();
+    service.setEntityManager(entityManager);
+    service.setSaying(saying);
+    service.execute();
     return Response.created(uriInfo.getAbsolutePath()).build();
   }
 }
