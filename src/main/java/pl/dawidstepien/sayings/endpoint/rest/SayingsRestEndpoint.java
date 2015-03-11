@@ -20,6 +20,7 @@ import javax.ws.rs.core.UriInfo;
 import pl.dawidstepien.sayings.endpoint.rest.response.AllSayingsRestResponse;
 import pl.dawidstepien.sayings.endpoint.rest.response.SingleSayingRestResponse;
 import pl.dawidstepien.sayings.model.SayingEntity;
+import pl.dawidstepien.sayings.service.saying.DeleteSayingService;
 import pl.dawidstepien.sayings.service.saying.GetAllSayingsService;
 import pl.dawidstepien.sayings.service.saying.GetRandomSayingService;
 import pl.dawidstepien.sayings.service.saying.GetSayingService;
@@ -62,8 +63,11 @@ public class SayingsRestEndpoint {
 
   @DELETE
   @Path("{id}")
-  public Response removeSaying(@PathParam("id") long id) {
-    entityManager.remove(entityManager.find(SayingEntity.class, id));
+  public Response removeSaying(@PathParam("id") long sayingId) {
+    DeleteSayingService service = new DeleteSayingService();
+    service.setEntityManager(entityManager);
+    service.setSayingId(sayingId);
+    service.execute();
     return Response.noContent().build();
   }
 
