@@ -1,0 +1,15 @@
+<arquillian xmlns="http://jboss.org/schema/arquillian"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="
+        http://jboss.org/schema/arquillian
+        http://jboss.org/schema/arquillian/arquillian_1_0.xsd">
+    <engine>
+        <property name="deploymentExportPath">target/deployments</property>
+    </engine>
+    <container qualifier="wildfly-managed" default="true">
+        <configuration>
+            <property name="jbossHome">/home/dstepien/apps/jboss/wildfly-8.1.0.Final</property>
+            <property name="javaHome">/home/dstepien/jdk/jdk1.8.0</property>
+        </configuration>
+    </container>
+</arquillian>

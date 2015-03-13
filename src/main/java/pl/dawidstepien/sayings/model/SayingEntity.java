@@ -29,15 +29,23 @@ public class SayingEntity {
   @Column(nullable = false)
   private String author;
 
+  public long getId() {
+    return id;
+  }
+
   public String getContent() {
     return content;
+  }
+
+  public void setContent(String content) {
+    this.content = content;
   }
 
   public String getAuthor() {
     return author;
   }
 
-  public long getId() {
-    return id;
+  public void setAuthor(String author) {
+    this.author = author;
   }
 }
