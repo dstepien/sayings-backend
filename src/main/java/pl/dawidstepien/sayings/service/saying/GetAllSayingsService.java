@@ -1,24 +1,20 @@
 package pl.dawidstepien.sayings.service.saying;
 
-import static pl.dawidstepien.sayings.model.SayingEntity.FIND_ALL_SAYINGS;
-
 import java.util.List;
 
-import javax.persistence.EntityManager;
+import javax.inject.Inject;
 
+import pl.dawidstepien.sayings.dao.SayingDao;
 import pl.dawidstepien.sayings.model.SayingEntity;
-import pl.dawidstepien.sayings.service.Service;
+import pl.dawidstepien.sayings.service.QueryService;
 
-public class GetAllSayingsService implements Service<List<SayingEntity>> {
+public class GetAllSayingsService implements QueryService<List<SayingEntity>> {
 
-  private EntityManager entityManager;
+  @Inject
+  private SayingDao sayingDao;
 
   @Override
   public List<SayingEntity> execute() {
-    return entityManager.createNamedQuery(FIND_ALL_SAYINGS, SayingEntity.class).getResultList();
-  }
-
-  public void setEntityManager(EntityManager entityManager) {
-    this.entityManager = entityManager;
+    return sayingDao.getAllSayings();
   }
 }

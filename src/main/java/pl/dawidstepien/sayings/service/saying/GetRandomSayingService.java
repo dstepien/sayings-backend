@@ -1,26 +1,25 @@
 package pl.dawidstepien.sayings.service.saying;
 
-import static pl.dawidstepien.sayings.model.SayingEntity.FIND_ALL_SAYINGS;
-
 import java.util.List;
 import java.util.Random;
 
-import javax.persistence.EntityManager;
+import javax.inject.Inject;
 
+import pl.dawidstepien.sayings.dao.SayingDao;
 import pl.dawidstepien.sayings.model.SayingEntity;
-import pl.dawidstepien.sayings.service.Service;
+import pl.dawidstepien.sayings.service.QueryService;
 
-public class GetRandomSayingService implements Service<SayingEntity> {
+public class GetRandomSayingService implements QueryService<SayingEntity> {
 
-  private EntityManager entityManager;
+  @Inject
+  private SayingDao sayingDao;
 
   @Override
   public SayingEntity execute() {
-    List<SayingEntity> sayings = entityManager.createNamedQuery(FIND_ALL_SAYINGS, SayingEntity.class).getResultList();
-    return sayings.get(new Random().nextInt(sayings.size()));
+    return getRandomSaying(sayingDao.getAllSayings());
   }
 
-  public void setEntityManager(EntityManager entityManager) {
-    this.entityManager = entityManager;
+  private SayingEntity getRandomSaying(List<SayingEntity> sayings) {
+    return sayings.get(new Random().nextInt(sayings.size()));
   }
 }

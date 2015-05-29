@@ -25,7 +25,6 @@ public class UpdateSayingServiceTest {
   public void shouldUpdateSaying() {
     // given
     UpdateSayingService service = new UpdateSayingService();
-    service.setEntityManager(entityManagerMock);
     service.setSaying(sayingEntityMock);
 
     // when

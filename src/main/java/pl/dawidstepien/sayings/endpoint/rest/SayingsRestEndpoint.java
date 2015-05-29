@@ -2,7 +2,6 @@ package pl.dawidstepien.sayings.endpoint.rest;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -17,9 +16,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import pl.dawidstepien.sayings.endpoint.rest.response.AllSayingsRestResponse;
-import pl.dawidstepien.sayings.endpoint.rest.response.SingleSayingRestResponse;
 import pl.dawidstepien.sayings.model.SayingEntity;
+import pl.dawidstepien.sayings.service.ServiceFactory;
+import pl.dawidstepien.sayings.service.ServiceFactoryException;
 import pl.dawidstepien.sayings.service.saying.CreateSayingService;
 import pl.dawidstepien.sayings.service.saying.DeleteSayingService;
 import pl.dawidstepien.sayings.service.saying.GetAllSayingsService;
@@ -27,65 +26,59 @@ import pl.dawidstepien.sayings.service.saying.GetRandomSayingService;
 import pl.dawidstepien.sayings.service.saying.GetSayingService;
 import pl.dawidstepien.sayings.service.saying.UpdateSayingService;
 
-@Path("/sayings")
 @Stateless
+@Path("/sayings")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class SayingsRestEndpoint {
 
-  @Inject
-  private EntityManager entityManager;
-
   @Context
   private UriInfo uriInfo;
 
+  @Inject
+  private ServiceFactory serviceFactory;
+
   @GET
   @Path("/random")
-  public Response getRandomSaying() {
-    GetRandomSayingService service = new GetRandomSayingService();
-    service.setEntityManager(entityManager);
-    return new SingleSayingRestResponse(service.execute()).build();
+  public Response getRandomSaying() throws ServiceFactoryException {
+    GetRandomSayingService service = serviceFactory.createQueryService(GetRandomSayingService.class);
+    return Response.ok(service.execute()).build();
   }
 
   @GET
-  public Response getAllSayings() {
-    GetAllSayingsService service = new GetAllSayingsService();
-    service.setEntityManager(entityManager);
-    return new AllSayingsRestResponse(service.execute()).build();
+  public Response getAllSayings() throws ServiceFactoryException {
+    GetAllSayingsService service = serviceFactory.createQueryService(GetAllSayingsService.class);
+    return Response.ok(service.execute()).build();
   }
 
   @GET
   @Path("{id}")
-  public Response getSaying(@PathParam("id") long id) {
-    GetSayingService service = new GetSayingService();
-    service.setEntityManager(entityManager);
-    service.setSayingId(id);
-    return new SingleSayingRestResponse(service.execute()).build();
+  public Response getSaying(@PathParam("id") long sayingId) throws ServiceFactoryException {
+    GetSayingService service = serviceFactory.createQueryService(GetSayingService.class);
+    service.setSayingId(sayingId);
+    return Response.ok(service.execute()).build();
   }
 
   @DELETE
   @Path("{id}")
-  public Response removeSaying(@PathParam("id") long sayingId) {
-    DeleteSayingService service = new DeleteSayingService();
-    service.setEntityManager(entityManager);
+  public Response removeSaying(@PathParam("id") long sayingId) throws ServiceFactoryException {
+    DeleteSayingService service = serviceFactory.createCommandService(DeleteSayingService.class);
     service.setSayingId(sayingId);
     service.execute();
     return Response.noContent().build();
   }
 
   @PUT
-  public Response updateSaying(@NotNull SayingEntity saying) {
-    UpdateSayingService service = new UpdateSayingService();
-    service.setEntityManager(entityManager);
+  public Response updateSaying(@NotNull SayingEntity saying) throws ServiceFactoryException {
+    UpdateSayingService service = serviceFactory.createCommandService(UpdateSayingService.class);
     service.setSaying(saying);
     service.execute();
     return Response.noContent().build();
   }
 
   @POST
-  public Response createSaying(@NotNull SayingEntity saying) {
-    CreateSayingService service = new CreateSayingService();
-    service.setEntityManager(entityManager);
+  public Response createSaying(@NotNull SayingEntity saying) throws ServiceFactoryException {
+    CreateSayingService service = serviceFactory.createCommandService(CreateSayingService.class);
     service.setSaying(saying);
     service.execute();
     return Response.created(uriInfo.getAbsolutePath()).build();

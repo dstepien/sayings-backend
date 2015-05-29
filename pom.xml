@@ -12,7 +12,33 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>${project.build.sourceEncoding}</project.reporting.outputEncoding>
+        <maven.surefire.excludedGroups>
+            pl.dawidstepien.sayings.test.EndToEndTest,pl.dawidstepien.sayings.test.IntegrationTest
+        </maven.surefire.excludedGroups>
     </properties>
+
+    <profiles>
+        <profile>
+            <id>integrationTests</id>
+            <properties>
+                <maven.surefire.excludedGroups/>
+                <groups>pl.dawidstepien.sayings.test.IntegrationTest</groups>
+            </properties>
+        </profile>
+        <profile>
+            <id>endToEndTests</id>
+            <properties>
+                <maven.surefire.excludedGroups/>
+                <groups>pl.dawidstepien.sayings.test.EndToEndTest</groups>
+            </properties>
+        </profile>
+        <profile>
+            <id>allTests</id>
+            <properties>
+                <maven.surefire.excludedGroups/>
+            </properties>
+        </profile>
+    </profiles>
 
     <dependencyManagement>
         <dependencies>
@@ -79,6 +105,22 @@
             <version>8.1.0.Final</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.jboss.weld.se</groupId>
+            <artifactId>weld-se</artifactId>
+            <version>2.0.1.Final</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>18.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.thoughtworks.xstream</groupId>
+            <artifactId>xstream</artifactId>
+            <version>1.4.8</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -111,6 +153,19 @@
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.18.1</version>
+                <configuration>
+                    <excludedGroups>${maven.surefire.excludedGroups}</excludedGroups>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>2.18.1</version>
+                <configuration>
+                    <includes>
+                        <include>**/*.java</include>
+                    </includes>
+                    <groups></groups>
+                </configuration>
             </plugin>
         </plugins>
     </build>

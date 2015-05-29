@@ -30,7 +30,6 @@ public class GetSayingServiceTest {
     when(entityManager.find(SayingEntity.class, ID)).thenReturn(saying);
 
     GetSayingService service = new GetSayingService();
-    service.setEntityManager(entityManager);
     service.setSayingId(ID);
 
     // when

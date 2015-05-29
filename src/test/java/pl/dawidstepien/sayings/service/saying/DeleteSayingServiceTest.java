@@ -30,7 +30,6 @@ public class DeleteSayingServiceTest {
     when(entityManagerMock.find(SayingEntity.class, ID)).thenReturn(sayingEntityMock);
 
     DeleteSayingService service = new DeleteSayingService();
-    service.setEntityManager(entityManagerMock);
     service.setSayingId(ID);
 
     // when

@@ -1,4 +1,4 @@
-package pl.dawidstepien.sayings;
+package pl.dawidstepien.sayings.endpoint.rest;
 
 import static org.junit.Assert.assertEquals;
 
@@ -10,8 +10,12 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
-public class SayRestServiceIT {
+import pl.dawidstepien.sayings.test.EndToEndTest;
+
+@Category(EndToEndTest.class)
+public class SayingsRestEndpointEndToEndTest {
 
   private static Client client = ClientBuilder.newClient();
 

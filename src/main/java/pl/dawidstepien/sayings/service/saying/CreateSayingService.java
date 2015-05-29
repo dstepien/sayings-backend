@@ -1,24 +1,21 @@
 package pl.dawidstepien.sayings.service.saying;
 
-import javax.persistence.EntityManager;
+import javax.inject.Inject;
 
+import pl.dawidstepien.sayings.dao.SayingDao;
 import pl.dawidstepien.sayings.model.SayingEntity;
-import pl.dawidstepien.sayings.service.Service;
+import pl.dawidstepien.sayings.service.CommandService;
 
-public class CreateSayingService implements Service<Void> {
+public class CreateSayingService implements CommandService {
 
-  private EntityManager entityManager;
+  @Inject
+  private SayingDao sayingDao;
 
   private SayingEntity saying;
 
   @Override
-  public Void execute() {
-    entityManager.persist(saying);
-    return null;
-  }
-
-  public void setEntityManager(EntityManager entityManager) {
-    this.entityManager = entityManager;
+  public void execute() {
+    sayingDao.save(saying);
   }
 
   public void setSaying(SayingEntity saying) {

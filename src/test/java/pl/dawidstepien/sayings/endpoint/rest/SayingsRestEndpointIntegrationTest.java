@@ -12,7 +12,9 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 import pl.dawidstepien.sayings.model.SayingEntity;
@@ -21,9 +23,12 @@ import pl.dawidstepien.sayings.service.saying.DeleteSayingService;
 import pl.dawidstepien.sayings.service.saying.GetAllSayingsService;
 import pl.dawidstepien.sayings.service.saying.GetSayingService;
 import pl.dawidstepien.sayings.service.saying.UpdateSayingService;
+import pl.dawidstepien.sayings.test.IntegrationTest;
 
+@Ignore
 @RunWith(Arquillian.class)
-public class SayingsRestEndpointIT {
+@Category(IntegrationTest.class)
+public class SayingsRestEndpointIntegrationTest {
 
   private static final String AUTHOR = "John Doe";
 
@@ -48,14 +53,14 @@ public class SayingsRestEndpointIT {
   private UpdateSayingService updateSayingService;
 
   @Inject
-  UserTransaction userTransaction;
+  private UserTransaction userTransaction;
 
   @Deployment
   public static WebArchive createDeployment() {
     return ShrinkWrap.create(WebArchive.class)
       .addPackages(true, "pl.dawidstepien.sayings")
       .addAsResource("persistence.xml", "META-INF/persistence.xml")
-      .addAsResource("beans.xml", "META-INF/beans.xml");
+      .addAsResource("META-INF/beans.xml", "META-INF/beans.xml");
   }
 
   @Before
@@ -129,13 +134,11 @@ public class SayingsRestEndpointIT {
   }
 
   private int getSayingsSize() {
-    getAllSayingsService.setEntityManager(entityManager);
     return getAllSayingsService.execute().size();
   }
 
   private SayingEntity createSaying() {
     SayingEntity saying = getSayingEntity();
-    createSayingService.setEntityManager(entityManager);
     createSayingService.setSaying(saying);
     createSayingService.execute();
     return saying;
@@ -149,19 +152,16 @@ public class SayingsRestEndpointIT {
   }
 
   private SayingEntity getSayingBy(long sayingId) {
-    getSayingService.setEntityManager(entityManager);
     getSayingService.setSayingId(sayingId);
     return getSayingService.execute();
   }
 
   private void updateSaying(SayingEntity saying) {
-    updateSayingService.setEntityManager(entityManager);
     updateSayingService.setSaying(saying);
     updateSayingService.execute();
   }
 
   private void deleteSaying(long sayingId) {
-    deleteSayingService.setEntityManager(entityManager);
     deleteSayingService.setSayingId(sayingId);
     deleteSayingService.execute();
   }

@@ -32,7 +32,6 @@ public class GetAllSayingsServiceTest {
     when(entityManager.createNamedQuery(FIND_ALL_SAYINGS, SayingEntity.class).getResultList()).thenReturn(SAYINGS);
 
     GetAllSayingsService service = new GetAllSayingsService();
-    service.setEntityManager(entityManager);
 
     // when
     List<SayingEntity> result = service.execute();
