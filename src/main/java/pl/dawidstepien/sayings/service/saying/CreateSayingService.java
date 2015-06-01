@@ -4,9 +4,9 @@ import javax.inject.Inject;
 
 import pl.dawidstepien.sayings.dao.SayingDao;
 import pl.dawidstepien.sayings.model.SayingEntity;
-import pl.dawidstepien.sayings.service.CommandService;
+import pl.dawidstepien.sayings.service.AbstractCommandService;
 
-public class CreateSayingService implements CommandService {
+public class CreateSayingService extends AbstractCommandService {
 
   @Inject
   private SayingDao sayingDao;
@@ -14,7 +14,7 @@ public class CreateSayingService implements CommandService {
   private SayingEntity saying;
 
   @Override
-  public void execute() {
+  protected void executeCommand() {
     sayingDao.save(saying);
   }
 

@@ -18,6 +18,7 @@ import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 import pl.dawidstepien.sayings.model.SayingEntity;
+import pl.dawidstepien.sayings.service.ServiceException;
 import pl.dawidstepien.sayings.service.saying.CreateSayingService;
 import pl.dawidstepien.sayings.service.saying.DeleteSayingService;
 import pl.dawidstepien.sayings.service.saying.GetAllSayingsService;
@@ -83,7 +84,7 @@ public class SayingsRestEndpointIntegrationTest {
   }
 
   @Test
-  public void shouldCreateOneSaying() {
+  public void shouldCreateOneSaying() throws ServiceException {
     // given
     int expectedSayingsSize = getSayingsSize() + 1;
 
@@ -95,7 +96,7 @@ public class SayingsRestEndpointIntegrationTest {
   }
 
   @Test
-  public void shouldGetOneSaying() {
+  public void shouldGetOneSaying() throws ServiceException {
     // given
     SayingEntity saying = createSaying();
 
@@ -107,7 +108,7 @@ public class SayingsRestEndpointIntegrationTest {
   }
 
   @Test
-  public void shouldUpdateOneSaying() {
+  public void shouldUpdateOneSaying() throws ServiceException {
     // given
     SayingEntity saying = createSaying();
     String content = "New content";
@@ -121,7 +122,7 @@ public class SayingsRestEndpointIntegrationTest {
   }
 
   @Test
-  public void shouldDeleteOneSaying() {
+  public void shouldDeleteOneSaying() throws ServiceException {
     // given
     SayingEntity saying = createSaying();
     int expectedSayingsSize = getSayingsSize() - 1;
@@ -133,11 +134,11 @@ public class SayingsRestEndpointIntegrationTest {
     assertEquals(expectedSayingsSize, getSayingsSize());
   }
 
-  private int getSayingsSize() {
+  private int getSayingsSize() throws ServiceException {
     return getAllSayingsService.execute().size();
   }
 
-  private SayingEntity createSaying() {
+  private SayingEntity createSaying() throws ServiceException {
     SayingEntity saying = getSayingEntity();
     createSayingService.setSaying(saying);
     createSayingService.execute();
@@ -151,17 +152,17 @@ public class SayingsRestEndpointIntegrationTest {
     return saying;
   }
 
-  private SayingEntity getSayingBy(long sayingId) {
+  private SayingEntity getSayingBy(long sayingId) throws ServiceException {
     getSayingService.setSayingId(sayingId);
     return getSayingService.execute();
   }
 
-  private void updateSaying(SayingEntity saying) {
+  private void updateSaying(SayingEntity saying) throws ServiceException {
     updateSayingService.setSaying(saying);
     updateSayingService.execute();
   }
 
-  private void deleteSaying(long sayingId) {
+  private void deleteSaying(long sayingId) throws ServiceException {
     deleteSayingService.setSayingId(sayingId);
     deleteSayingService.execute();
   }

@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import pl.dawidstepien.sayings.model.SayingEntity;
+import pl.dawidstepien.sayings.service.ServiceException;
 
 @RunWith(MockitoJUnitRunner.class)
 public class GetSayingServiceTest {
@@ -25,7 +26,7 @@ public class GetSayingServiceTest {
   private SayingEntity saying;
 
   @Test
-  public void shouldGetSayingEntityWithSpecifiedId() {
+  public void shouldGetSayingEntityWithSpecifiedId() throws ServiceException {
     // given
     when(entityManager.find(SayingEntity.class, ID)).thenReturn(saying);
 

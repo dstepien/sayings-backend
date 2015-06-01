@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import pl.dawidstepien.sayings.model.SayingEntity;
+import pl.dawidstepien.sayings.service.ServiceException;
 
 @RunWith(MockitoJUnitRunner.class)
 @Ignore
@@ -24,7 +25,7 @@ public class CreateSayingServiceTest {
   private SayingEntity sayingEntityMock;
 
   @Test
-  public void shouldCreateSaying() {
+  public void shouldCreateSaying() throws ServiceException {
     // given
     CreateSayingService service = new CreateSayingService();
     service.setSaying(sayingEntityMock);

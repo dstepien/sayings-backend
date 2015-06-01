@@ -17,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import pl.dawidstepien.sayings.model.SayingEntity;
+import pl.dawidstepien.sayings.service.ServiceException;
 
 @RunWith(MockitoJUnitRunner.class)
 public class GetAllSayingsServiceTest {
@@ -27,7 +28,7 @@ public class GetAllSayingsServiceTest {
   private EntityManager entityManager;
 
   @Test
-  public void shouldGetAllSayings() {
+  public void shouldGetAllSayings() throws ServiceException {
     // given
     when(entityManager.createNamedQuery(FIND_ALL_SAYINGS, SayingEntity.class).getResultList()).thenReturn(SAYINGS);
 

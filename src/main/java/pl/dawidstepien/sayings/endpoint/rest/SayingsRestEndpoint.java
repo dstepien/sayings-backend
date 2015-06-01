@@ -17,6 +17,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import pl.dawidstepien.sayings.model.SayingEntity;
+import pl.dawidstepien.sayings.service.ServiceException;
 import pl.dawidstepien.sayings.service.ServiceFactory;
 import pl.dawidstepien.sayings.service.ServiceFactoryException;
 import pl.dawidstepien.sayings.service.saying.CreateSayingService;
@@ -40,20 +41,20 @@ public class SayingsRestEndpoint {
 
   @GET
   @Path("/random")
-  public Response getRandomSaying() throws ServiceFactoryException {
+  public Response getRandomSaying() throws ServiceFactoryException, ServiceException {
     GetRandomSayingService service = serviceFactory.createQueryService(GetRandomSayingService.class);
     return Response.ok(service.execute()).build();
   }
 
   @GET
-  public Response getAllSayings() throws ServiceFactoryException {
+  public Response getAllSayings() throws ServiceFactoryException, ServiceException {
     GetAllSayingsService service = serviceFactory.createQueryService(GetAllSayingsService.class);
     return Response.ok(service.execute()).build();
   }
 
   @GET
   @Path("{id}")
-  public Response getSaying(@PathParam("id") long sayingId) throws ServiceFactoryException {
+  public Response getSaying(@PathParam("id") long sayingId) throws ServiceFactoryException, ServiceException {
     GetSayingService service = serviceFactory.createQueryService(GetSayingService.class);
     service.setSayingId(sayingId);
     return Response.ok(service.execute()).build();
@@ -61,7 +62,7 @@ public class SayingsRestEndpoint {
 
   @DELETE
   @Path("{id}")
-  public Response removeSaying(@PathParam("id") long sayingId) throws ServiceFactoryException {
+  public Response removeSaying(@PathParam("id") long sayingId) throws ServiceFactoryException, ServiceException {
     DeleteSayingService service = serviceFactory.createCommandService(DeleteSayingService.class);
     service.setSayingId(sayingId);
     service.execute();
@@ -69,7 +70,7 @@ public class SayingsRestEndpoint {
   }
 
   @PUT
-  public Response updateSaying(@NotNull SayingEntity saying) throws ServiceFactoryException {
+  public Response updateSaying(@NotNull SayingEntity saying) throws ServiceFactoryException, ServiceException {
     UpdateSayingService service = serviceFactory.createCommandService(UpdateSayingService.class);
     service.setSaying(saying);
     service.execute();
@@ -77,7 +78,7 @@ public class SayingsRestEndpoint {
   }
 
   @POST
-  public Response createSaying(@NotNull SayingEntity saying) throws ServiceFactoryException {
+  public Response createSaying(@NotNull SayingEntity saying) throws ServiceFactoryException, ServiceException {
     CreateSayingService service = serviceFactory.createCommandService(CreateSayingService.class);
     service.setSaying(saying);
     service.execute();

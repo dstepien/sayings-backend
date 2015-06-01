@@ -7,15 +7,15 @@ import javax.inject.Inject;
 
 import pl.dawidstepien.sayings.dao.SayingDao;
 import pl.dawidstepien.sayings.model.SayingEntity;
-import pl.dawidstepien.sayings.service.QueryService;
+import pl.dawidstepien.sayings.service.AbstractQueryService;
 
-public class GetRandomSayingService implements QueryService<SayingEntity> {
+public class GetRandomSayingService extends AbstractQueryService<SayingEntity> {
 
   @Inject
   private SayingDao sayingDao;
 
   @Override
-  public SayingEntity execute() {
+  protected SayingEntity executeQuery() {
     return getRandomSaying(sayingDao.getAllSayings());
   }
 

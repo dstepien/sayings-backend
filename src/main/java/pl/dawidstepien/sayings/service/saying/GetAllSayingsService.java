@@ -6,15 +6,15 @@ import javax.inject.Inject;
 
 import pl.dawidstepien.sayings.dao.SayingDao;
 import pl.dawidstepien.sayings.model.SayingEntity;
-import pl.dawidstepien.sayings.service.QueryService;
+import pl.dawidstepien.sayings.service.AbstractQueryService;
 
-public class GetAllSayingsService implements QueryService<List<SayingEntity>> {
+public class GetAllSayingsService extends AbstractQueryService<List<SayingEntity>> {
 
   @Inject
   private SayingDao sayingDao;
 
   @Override
-  public List<SayingEntity> execute() {
+  protected List<SayingEntity> executeQuery() {
     return sayingDao.getAllSayings();
   }
 }

@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import pl.dawidstepien.sayings.model.SayingEntity;
+import pl.dawidstepien.sayings.service.ServiceException;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DeleteSayingServiceTest {
@@ -25,7 +26,7 @@ public class DeleteSayingServiceTest {
   private SayingEntity sayingEntityMock;
 
   @Test
-  public void shouldDeleteSaying() {
+  public void shouldDeleteSaying() throws ServiceException {
     // given
     when(entityManagerMock.find(SayingEntity.class, ID)).thenReturn(sayingEntityMock);
 

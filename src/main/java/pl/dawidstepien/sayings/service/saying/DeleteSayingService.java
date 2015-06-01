@@ -3,9 +3,9 @@ package pl.dawidstepien.sayings.service.saying;
 import javax.inject.Inject;
 
 import pl.dawidstepien.sayings.dao.SayingDao;
-import pl.dawidstepien.sayings.service.CommandService;
+import pl.dawidstepien.sayings.service.AbstractCommandService;
 
-public class DeleteSayingService implements CommandService {
+public class DeleteSayingService extends AbstractCommandService {
 
   @Inject
   private SayingDao sayingDao;
@@ -13,7 +13,7 @@ public class DeleteSayingService implements CommandService {
   private long sayingId;
 
   @Override
-  public void execute() {
+  protected void executeCommand() {
     sayingDao.delete(sayingId);
   }
 

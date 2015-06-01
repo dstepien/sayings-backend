@@ -25,6 +25,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import pl.dawidstepien.sayings.model.MockEntityManagerProducer;
 import pl.dawidstepien.sayings.model.SayingEntity;
+import pl.dawidstepien.sayings.service.ServiceException;
 
 @RunWith(MockitoJUnitRunner.class)
 @Ignore
@@ -69,7 +70,7 @@ public class GetRandomSayingServiceTest {
   }
 
   @Test
-  public void shouldReturnRandomSaying() {
+  public void shouldReturnRandomSaying() throws ServiceException {
     // given
     when(entityManager.createNamedQuery(anyString(), eq(SayingEntity.class)).getResultList()).thenReturn(SAYINGS);
 
