@@ -12,7 +12,7 @@ import javax.ws.rs.core.UriBuilder;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
-import pl.dawidstepien.sayings.test.EndToEndTest;
+import pl.dawidstepien.sayings.test.category.EndToEndTest;
 
 @Category(EndToEndTest.class)
 public class SayingsRestEndpointEndToEndTest {

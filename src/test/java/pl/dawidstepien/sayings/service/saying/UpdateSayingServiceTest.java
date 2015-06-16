@@ -3,35 +3,40 @@ package pl.dawidstepien.sayings.service.saying;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-import javax.persistence.EntityManager;
+import javax.enterprise.inject.Produces;
+import javax.inject.Inject;
 
+import org.jglue.cdiunit.CdiRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
 
+import pl.dawidstepien.sayings.dao.SayingDao;
 import pl.dawidstepien.sayings.model.SayingEntity;
 import pl.dawidstepien.sayings.service.ServiceException;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(CdiRunner.class)
 public class UpdateSayingServiceTest {
 
-  @Mock
-  private EntityManager entityManagerMock;
+  @Inject
+  private UpdateSayingService service;
 
   @Mock
-  private SayingEntity sayingEntityMock;
+  private SayingEntity sayingEntity;
+
+  @Mock
+  @Produces
+  private SayingDao sayingDao;
 
   @Test
   public void shouldUpdateSaying() throws ServiceException {
     // given
-    UpdateSayingService service = new UpdateSayingService();
-    service.setSaying(sayingEntityMock);
+    service.setSaying(sayingEntity);
 
     // when
     service.execute();
 
     // then
-    verify(entityManagerMock, times(1)).merge(sayingEntityMock);
+    verify(sayingDao, times(1)).update(sayingEntity);
   }
 }

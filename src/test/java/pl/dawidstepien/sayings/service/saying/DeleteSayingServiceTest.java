@@ -2,41 +2,39 @@ package pl.dawidstepien.sayings.service.saying;
 
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
-import javax.persistence.EntityManager;
+import javax.enterprise.inject.Produces;
+import javax.inject.Inject;
 
+import org.jglue.cdiunit.CdiRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
 
-import pl.dawidstepien.sayings.model.SayingEntity;
+import pl.dawidstepien.sayings.dao.SayingDao;
 import pl.dawidstepien.sayings.service.ServiceException;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(CdiRunner.class)
 public class DeleteSayingServiceTest {
 
-  private static final long ID = 12345L;
+  private static final long SAYING_ID = 12345L;
+
+  @Inject
+  private DeleteSayingService service;
 
   @Mock
-  private EntityManager entityManagerMock;
-
-  @Mock
-  private SayingEntity sayingEntityMock;
+  @Produces
+  private SayingDao sayingDao;
 
   @Test
-  public void shouldDeleteSaying() throws ServiceException {
+  public void shouldCreateSaying() throws ServiceException {
     // given
-    when(entityManagerMock.find(SayingEntity.class, ID)).thenReturn(sayingEntityMock);
-
-    DeleteSayingService service = new DeleteSayingService();
-    service.setSayingId(ID);
+    service.setSayingId(SAYING_ID);
 
     // when
     service.execute();
 
     // then
-    verify(entityManagerMock, times(1)).remove(sayingEntityMock);
+    verify(sayingDao, times(1)).delete(SAYING_ID);
   }
 }

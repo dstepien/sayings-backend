@@ -1,86 +1,46 @@
 package pl.dawidstepien.sayings.service.saying;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
+import static org.hamcrest.CoreMatchers.hasItem;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.List;
 
-import javax.persistence.EntityManager;
+import javax.enterprise.inject.Produces;
+import javax.inject.Inject;
 
-import org.jboss.weld.environment.se.Weld;
-import org.jboss.weld.environment.se.WeldContainer;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Ignore;
+import org.jglue.cdiunit.CdiRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Answers;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
 
-import pl.dawidstepien.sayings.model.MockEntityManagerProducer;
+import pl.dawidstepien.sayings.dao.SayingDao;
 import pl.dawidstepien.sayings.model.SayingEntity;
 import pl.dawidstepien.sayings.service.ServiceException;
 
-@RunWith(MockitoJUnitRunner.class)
-@Ignore
+@RunWith(CdiRunner.class)
 public class GetRandomSayingServiceTest {
 
   private static List<SayingEntity> SAYINGS = Arrays.asList(mock(SayingEntity.class), mock(SayingEntity.class));
 
-  @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-  private static EntityManager entityManager;
+  @Inject
+  private GetRandomSayingService service;
 
-  private Weld weld;
-
-  private WeldContainer container;
-
-  @Before
-  public void setUp() throws Exception {
-    initializeWeldContainer();
-    setMockProducers();
-  }
-
-  private void setMockProducers() {
-    MockEntityManagerProducer.setEntityManager(entityManager);
-  }
-
-  private void initializeWeldContainer() {
-    weld = new Weld();
-    container = weld.initialize();
-  }
-
-  @After
-  public void tearDown() throws Exception {
-    shutdownWeld();
-    clearMockProducers();
-  }
-
-  private void clearMockProducers() {
-    MockEntityManagerProducer.clear();
-  }
-
-  private void shutdownWeld() {
-    weld.shutdown();
-  }
+  @Mock
+  @Produces
+  private SayingDao sayingDao;
 
   @Test
   public void shouldReturnRandomSaying() throws ServiceException {
     // given
-    when(entityManager.createNamedQuery(anyString(), eq(SayingEntity.class)).getResultList()).thenReturn(SAYINGS);
-
-    GetRandomSayingService service = container.instance().select(GetRandomSayingService.class).get();
+    when(sayingDao.getAllSayings()).thenReturn(SAYINGS);
 
     // when
     SayingEntity result = service.execute();
 
     // then
-    assertNotNull(result);
-    assertEquals(true, SAYINGS.contains(result));
+    assertThat(SAYINGS, hasItem(result));
   }
 }

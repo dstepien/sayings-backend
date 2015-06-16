@@ -1,42 +1,48 @@
 package pl.dawidstepien.sayings.service.saying;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Answers.RETURNS_DEEP_STUBS;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.when;
 
-import javax.persistence.EntityManager;
+import javax.enterprise.inject.Produces;
+import javax.inject.Inject;
 
+import org.jglue.cdiunit.CdiRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
 
+import pl.dawidstepien.sayings.dao.SayingDao;
 import pl.dawidstepien.sayings.model.SayingEntity;
 import pl.dawidstepien.sayings.service.ServiceException;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(CdiRunner.class)
 public class GetSayingServiceTest {
 
-  private static final long ID = 123L;
+  private static final long SAYING_ID = 12345L;
 
-  @Mock(answer = RETURNS_DEEP_STUBS)
-  private EntityManager entityManager;
+  @Inject
+  private GetSayingService service;
 
   @Mock
-  private SayingEntity saying;
+  @Produces
+  private SayingDao sayingDao;
+
+  @Mock
+  private SayingEntity sayingEntity;
 
   @Test
   public void shouldGetSayingEntityWithSpecifiedId() throws ServiceException {
     // given
-    when(entityManager.find(SayingEntity.class, ID)).thenReturn(saying);
+    when(sayingDao.getSaying(SAYING_ID)).thenReturn(sayingEntity);
 
-    GetSayingService service = new GetSayingService();
-    service.setSayingId(ID);
+    service.setSayingId(SAYING_ID);
 
     // when
     SayingEntity result = service.execute();
 
     // then
-    assertEquals(saying, result);
+    assertThat(result, is(equalTo(sayingEntity)));
   }
 }

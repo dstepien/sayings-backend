@@ -13,7 +13,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>${project.build.sourceEncoding}</project.reporting.outputEncoding>
         <maven.surefire.excludedGroups>
-            pl.dawidstepien.sayings.test.EndToEndTest,pl.dawidstepien.sayings.test.IntegrationTest
+            pl.dawidstepien.sayings.test.category.EndToEndTest,pl.dawidstepien.sayings.test.category.IntegrationTest
         </maven.surefire.excludedGroups>
     </properties>
 
@@ -22,14 +22,14 @@
             <id>integrationTests</id>
             <properties>
                 <maven.surefire.excludedGroups/>
-                <groups>pl.dawidstepien.sayings.test.IntegrationTest</groups>
+                <groups>pl.dawidstepien.sayings.test.category.IntegrationTest</groups>
             </properties>
         </profile>
         <profile>
             <id>endToEndTests</id>
             <properties>
                 <maven.surefire.excludedGroups/>
-                <groups>pl.dawidstepien.sayings.test.EndToEndTest</groups>
+                <groups>pl.dawidstepien.sayings.test.category.EndToEndTest</groups>
             </properties>
         </profile>
         <profile>
@@ -109,6 +109,12 @@
             <groupId>org.jboss.weld.se</groupId>
             <artifactId>weld-se</artifactId>
             <version>2.0.1.Final</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jglue.cdi-unit</groupId>
+            <artifactId>cdi-unit</artifactId>
+            <version>3.1.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>

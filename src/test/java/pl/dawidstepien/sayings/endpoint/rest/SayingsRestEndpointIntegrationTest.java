@@ -24,7 +24,7 @@ import pl.dawidstepien.sayings.service.saying.DeleteSayingService;
 import pl.dawidstepien.sayings.service.saying.GetAllSayingsService;
 import pl.dawidstepien.sayings.service.saying.GetSayingService;
 import pl.dawidstepien.sayings.service.saying.UpdateSayingService;
-import pl.dawidstepien.sayings.test.IntegrationTest;
+import pl.dawidstepien.sayings.test.category.IntegrationTest;
 
 @Ignore
 @RunWith(Arquillian.class)

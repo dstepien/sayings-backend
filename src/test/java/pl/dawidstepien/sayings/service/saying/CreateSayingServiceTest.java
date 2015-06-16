@@ -3,37 +3,40 @@ package pl.dawidstepien.sayings.service.saying;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-import javax.persistence.EntityManager;
+import javax.enterprise.inject.Produces;
+import javax.inject.Inject;
 
-import org.junit.Ignore;
+import org.jglue.cdiunit.CdiRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
 
+import pl.dawidstepien.sayings.dao.SayingDao;
 import pl.dawidstepien.sayings.model.SayingEntity;
 import pl.dawidstepien.sayings.service.ServiceException;
 
-@RunWith(MockitoJUnitRunner.class)
-@Ignore
+@RunWith(CdiRunner.class)
 public class CreateSayingServiceTest {
 
-  @Mock
-  private EntityManager entityManagerMock;
+  @Inject
+  private CreateSayingService service;
 
   @Mock
-  private SayingEntity sayingEntityMock;
+  private SayingEntity sayingEntity;
+
+  @Mock
+  @Produces
+  private SayingDao sayingDao;
 
   @Test
   public void shouldCreateSaying() throws ServiceException {
     // given
-    CreateSayingService service = new CreateSayingService();
-    service.setSaying(sayingEntityMock);
+    service.setSaying(sayingEntity);
 
     // when
     service.execute();
 
     // then
-    verify(entityManagerMock, times(1)).persist(sayingEntityMock);
+    verify(sayingDao, times(1)).save(sayingEntity);
   }
 }
