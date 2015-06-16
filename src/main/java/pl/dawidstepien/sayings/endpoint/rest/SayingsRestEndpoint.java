@@ -19,7 +19,6 @@ import javax.ws.rs.core.UriInfo;
 import pl.dawidstepien.sayings.model.SayingEntity;
 import pl.dawidstepien.sayings.service.ServiceException;
 import pl.dawidstepien.sayings.service.ServiceFactory;
-import pl.dawidstepien.sayings.service.ServiceFactoryException;
 import pl.dawidstepien.sayings.service.saying.CreateSayingService;
 import pl.dawidstepien.sayings.service.saying.DeleteSayingService;
 import pl.dawidstepien.sayings.service.saying.GetAllSayingsService;
@@ -41,20 +40,20 @@ public class SayingsRestEndpoint {
 
   @GET
   @Path("/random")
-  public Response getRandomSaying() throws ServiceFactoryException, ServiceException {
+  public Response getRandomSaying() throws ServiceException {
     GetRandomSayingService service = serviceFactory.createQueryService(GetRandomSayingService.class);
     return Response.ok(service.execute()).build();
   }
 
   @GET
-  public Response getAllSayings() throws ServiceFactoryException, ServiceException {
+  public Response getAllSayings() throws ServiceException {
     GetAllSayingsService service = serviceFactory.createQueryService(GetAllSayingsService.class);
     return Response.ok(service.execute()).build();
   }
 
   @GET
   @Path("{id}")
-  public Response getSaying(@PathParam("id") long sayingId) throws ServiceFactoryException, ServiceException {
+  public Response getSaying(@PathParam("id") long sayingId) throws ServiceException {
     GetSayingService service = serviceFactory.createQueryService(GetSayingService.class);
     service.setSayingId(sayingId);
     return Response.ok(service.execute()).build();
@@ -62,7 +61,7 @@ public class SayingsRestEndpoint {
 
   @DELETE
   @Path("{id}")
-  public Response removeSaying(@PathParam("id") long sayingId) throws ServiceFactoryException, ServiceException {
+  public Response removeSaying(@PathParam("id") long sayingId) throws ServiceException {
     DeleteSayingService service = serviceFactory.createCommandService(DeleteSayingService.class);
     service.setSayingId(sayingId);
     service.execute();
@@ -70,7 +69,7 @@ public class SayingsRestEndpoint {
   }
 
   @PUT
-  public Response updateSaying(@NotNull SayingEntity saying) throws ServiceFactoryException, ServiceException {
+  public Response updateSaying(@NotNull SayingEntity saying) throws ServiceException {
     UpdateSayingService service = serviceFactory.createCommandService(UpdateSayingService.class);
     service.setSaying(saying);
     service.execute();
@@ -78,7 +77,7 @@ public class SayingsRestEndpoint {
   }
 
   @POST
-  public Response createSaying(@NotNull SayingEntity saying) throws ServiceFactoryException, ServiceException {
+  public Response createSaying(@NotNull SayingEntity saying) throws ServiceException {
     CreateSayingService service = serviceFactory.createCommandService(CreateSayingService.class);
     service.setSaying(saying);
     service.execute();
