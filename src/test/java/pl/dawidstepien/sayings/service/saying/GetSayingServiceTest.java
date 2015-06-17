@@ -16,6 +16,7 @@ import org.mockito.Mock;
 import pl.dawidstepien.sayings.dao.SayingDao;
 import pl.dawidstepien.sayings.model.SayingEntity;
 import pl.dawidstepien.sayings.service.ServiceException;
+import pl.dawidstepien.sayings.service.validator.EntityExistsServiceValidator;
 
 @RunWith(CdiRunner.class)
 public class GetSayingServiceTest {
@@ -28,6 +29,10 @@ public class GetSayingServiceTest {
   @Mock
   @Produces
   private SayingDao sayingDao;
+
+  @Mock
+  @Produces
+  private EntityExistsServiceValidator existsServiceValidator;
 
   @Mock
   private SayingEntity sayingEntity;

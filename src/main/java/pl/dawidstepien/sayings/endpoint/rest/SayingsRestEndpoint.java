@@ -69,7 +69,7 @@ public class SayingsRestEndpoint {
   }
 
   @PUT
-  public Response updateSaying(@NotNull SayingEntity saying) throws ServiceException {
+  public Response updateSaying(SayingEntity saying) throws ServiceException {
     UpdateSayingService service = serviceFactory.createCommandService(UpdateSayingService.class);
     service.setSaying(saying);
     service.execute();
