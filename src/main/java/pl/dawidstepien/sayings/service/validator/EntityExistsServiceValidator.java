@@ -12,7 +12,7 @@ public class EntityExistsServiceValidator {
 
   public void validate(Class<?> entityClass, long entityId) throws EntityNotExistsException {
     if(isEntityNotExists(entityClass, entityId)) {
-      throw new EntityNotExistsException();
+      throw new EntityNotExistsException(entityClass, entityId);
     }
   }
 
